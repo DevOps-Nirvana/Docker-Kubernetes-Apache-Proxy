@@ -13,6 +13,6 @@ RUN apt-get update \
 # configure apache to include * configuration files in the kubernetes folder
     && echo "Include conf/kubernetes/*.conf" >> /usr/local/apache2/conf/httpd.conf \
     && mkdir /usr/local/apache2/conf/kubernetes \
-    && touch /usr/local/apache2/conf/kubernetes/empty.conf
+    && touch /usr/local/apache2/conf/kubernetes/empty.conf \
 # allow included/mounted codebases to override options by default, easier to tweak/configure dynamically, although this is not preferred over apache config
     && sed -i 's/AllowOverride none/AllowOverride all/gI' /usr/local/apache2/conf/httpd.conf
