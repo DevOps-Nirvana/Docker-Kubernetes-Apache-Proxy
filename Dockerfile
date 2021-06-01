@@ -15,4 +15,6 @@ RUN apt-get update \
     && mkdir /usr/local/apache2/conf/kubernetes \
     && touch /usr/local/apache2/conf/kubernetes/empty.conf \
 # allow included/mounted codebases to override options by default, easier to tweak/configure dynamically, although this is not preferred over apache config
-    && sed -i 's/AllowOverride none/AllowOverride all/gI' /usr/local/apache2/conf/httpd.conf
+    && sed -i 's/AllowOverride none/AllowOverride all/gI' /usr/local/apache2/conf/httpd.conf \
+# Incase this is used for static pages, make SPA pages functional by auto-rewriting all requests to index.html that are not index.html
+    && sed -i 's/Require all granted/Require all granted\n\n    # EDITED - Handle SPA Site eg: react, redirect to index.html\n    RewriteCond %{REQUEST_FILENAME} !-d\n    RewriteCond %{REQUEST_FILENAME} !-f\n    RewriteRule ^ index.html [L]/' /usr/local/apache2/conf/httpd.conf
